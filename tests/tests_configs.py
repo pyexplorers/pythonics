@@ -19,3 +19,15 @@ array_json_columns = ['emp_id','name_prefix','first_name','middle_initial','last
 'father_name','mother_name','mother_maiden_name','dob','tob','age','weight','doj','quarter_joining','half_joining',
 'year_joining','month_joining','month_name_joining','short_month','day_of_joining','dow_joining','short_dow',
 'age_in_company','salary','last_hike','ssn','phone','place','county','city','state','zip','region','user_name','password']
+
+
+'''
+	Test Content for REST-API Calls
+'''
+# REST GET URL
+REST_API_GET_URL = ['http://127.0.0.1:4000/user_info?first_name=Lois&last_name=Walker&email=maria',
+					'http://127.0.0.1:4000/user_info?user_name=arunkuch&first_name=arun']
+# Set username and password for authentication process
+SET_USER_NAME,SET_USER_PWD = 'admin','admin'
+# Error raised when invalid URL Credentials are sent
+ERROR_INVALID_CREDS = {'ERROR_INVALID_CREDENTIALS': 'Authorization was not successful'}

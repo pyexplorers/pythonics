@@ -2,8 +2,22 @@
     An Utils module for all common and frequent tasks such as file handling etc..
 '''
 import json
+import requests
 
 class Py_Utils:
+    
+    @staticmethod
+    def check_api_result(api_url,*args):
+        '''
+            Given an API URL do a GET request call and return the result
+            :param api_url: URL on which GET will be applied
+            :param args: Contains username and password
+        '''
+        try:
+            print("Do a Get call for URL .. {} ".format(api_url))
+            return requests.get(api_url,auth=(args[0],args[1]))
+        except Exception as error:
+            return {'data':'ERROR'}
 
     @staticmethod
     def read_json(json_file):
@@ -15,6 +29,7 @@ class Py_Utils:
                 Exception -> Empty dictionary
         '''
         try:
+            print("Read Json ... {} ".format(json_file))
             with open(json_file,'r') as reader:
                 return json.load(reader)
         except Exception as error:
@@ -59,6 +74,9 @@ class Py_Utils:
             :param csv_file_path: Full path of the csv file
             :param json_file_path: Full path of the json file
             :param json_columns: Array of json columns
+            @return:
+                Success -> Write the contents to the final json file
+                Exception ->Write empty array to the final json file
         '''
         try:
             csv_contents = list(cls.read_file(csv_file_path))
