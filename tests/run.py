@@ -24,7 +24,7 @@ class Tests:
 			Do a GET call and check if the API is returning valid result
 		'''
 		# Execute all the URLs and get the requests object.
-		result_api_calls = [Py_Utils.check_api_result(each_api_url_call,tests_configs.SET_USER_NAME,tests_configs.SET_USER_PWD) \
+		result_api_calls = [Py_Utils.get_api_result(each_api_url_call,tests_configs.SET_USER_NAME,tests_configs.SET_USER_PWD) \
 			for each_api_url_call in tests_configs.REST_API_GET_URL]
 		'''
 			To Check
@@ -42,3 +42,27 @@ class Tests:
 			assert each_api_url_call_result.json()['data'] != ['ERROR']
 			# Assert if the data is not empty
 			assert each_api_url_call_result.json()['data'] != []
+
+	def tests_post_requests_api(self):
+		'''
+			Do a GET call and check if the API is returning valid result
+		'''
+		# Execute all the URLs and get the requests object.
+		result_api_calls = [Py_Utils.post_api_result(each_api_url_call,tests_configs.SET_USER_NAME,tests_configs.SET_USER_PWD) \
+			for each_api_url_call in tests_configs.REST_API_POST_URL]
+		'''
+			To Check
+				1.) Assert if the requests return code is 200
+				2.) Assert if the data is not empty
+			I do a check if all params that i pass return non-empty results
+		'''
+		for each_api_url_call_result in result_api_calls:
+			print("\n\n Do Assertion for URL {} ".format(each_api_url_call_result.url))
+			# Assert if the request was made with valid username and password
+			assert each_api_url_call_result.json()['data'] != tests_configs.ERROR_INVALID_CREDS
+			# Assert if the requests return code is 200
+			assert each_api_url_call_result.status_code == 200 and bool(each_api_url_call_result.ok)
+			# Assert if the request url was not errored out
+			assert each_api_url_call_result.json()['data'] != ['ERROR']
+			# Assert if the data is not empty
+			assert each_api_url_call_result.json()['data'] != []			

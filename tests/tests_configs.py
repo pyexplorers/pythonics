@@ -25,8 +25,11 @@ array_json_columns = ['emp_id','name_prefix','first_name','middle_initial','last
 	Test Content for REST-API Calls
 '''
 # REST GET URL
-REST_API_GET_URL = ['http://127.0.0.1:4000/user_info?first_name=Lois&last_name=Walker&email=maria',
-					'http://127.0.0.1:4000/user_info?user_name=arunkuch&first_name=arun']
+REST_API_GET_URL = ['http://127.0.0.1:4000/user_info?first_name=Lois&last_name=Walker&email=maria']
+
+# REST POST URL
+REST_API_POST_URL = ['http://127.0.0.1:4000/post_user_info?first_name=Lois&last_name=Walker&email=maria']
+
 # Set username and password for authentication process
 SET_USER_NAME,SET_USER_PWD = 'admin','admin'
 # Error raised when invalid URL Credentials are sent

@@ -5,19 +5,33 @@ import json
 import requests
 
 class Py_Utils:
-    
+
     @staticmethod
-    def check_api_result(api_url,*args):
+    def get_api_result(api_url,*args):
         '''
             Given an API URL do a GET request call and return the result
             :param api_url: URL on which GET will be applied
             :param args: Contains username and password
         '''
         try:
-            print("Do a Get call for URL .. {} ".format(api_url))
+            print("Do a GET call for URL .. {} ".format(api_url))
             return requests.get(api_url,auth=(args[0],args[1]))
         except Exception as error:
             return {'data':'ERROR'}
+
+    @staticmethod
+    def post_api_result(api_url,*args):
+        '''
+            Given an API URL do a GET request call and return the result
+            :param api_url: URL on which GET will be applied
+            :param args: Contains username and password
+        '''
+        try:
+            print("Do a POST call for URL .. {} ".format(api_url))
+            return requests.post(api_url,auth=(args[0],args[1]))
+        except Exception as error:
+            return {'data':'ERROR'}
+
 
     @staticmethod
     def read_json(json_file):
