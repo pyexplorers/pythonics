@@ -26,9 +26,12 @@ array_json_columns = ['emp_id','name_prefix','first_name','middle_initial','last
 '''
 # REST GET URL
 REST_API_GET_URL = ['http://127.0.0.1:4000/user_info?first_name=Lois&last_name=Walker&email=maria']
-
 # REST POST URL
 REST_API_POST_URL = ['http://127.0.0.1:4000/post_user_info?first_name=Lois&last_name=Walker&email=maria']
+# REST POST URL
+REST_API_UPDATE_URL = ['http://127.0.0.1:4000/update_user_info?first_name=Lois&last_name=Walker&email=maria']
+# REST POST URL
+REST_API_DELETE_URL = ['http://127.0.0.1:4000/delete_user_info?first_name=Lois&last_name=Walker&email=maria']
 
 # Set username and password for authentication process
 SET_USER_NAME,SET_USER_PWD = 'admin','admin'

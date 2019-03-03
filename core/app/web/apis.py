@@ -97,7 +97,6 @@ class Users_Stats:
         return web_utils.Tasks.delete_users_information(request.args.to_dict(),request.authorization,
             mongo_collection=web_utils.mongo_set_database_collection)
 
-
 '''
     Run the pre-requisite step for processing
 '''
