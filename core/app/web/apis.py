@@ -43,7 +43,6 @@ class Users_Stats:
                 Success -> Valid records that match user's query
                 Exception -> {"data":"ERROR"}
         '''
-        pdb.set_trace()
         # Get all users whose attributes matches the argument specified by the User
         get_users_information = web_utils.Tasks.get_users_information(request.args.items(),request.authorization)
         return json.dumps({"data":get_users_information})
@@ -58,10 +57,27 @@ class Users_Stats:
                 Success -> {"data":"True"}
                 Exception -> {"data":"ERROR"}
         '''
-        print("\n\n\n {} \n\n\n ".format(request.method))
-        # Get all users whose attributes matches the argument specified by the User
+        # Create a new document in an existing collection in the database
         return web_utils.Tasks.post_users_information(request.args.to_dict(),request.authorization,
-            mongo_collection=None)
+            mongo_collection=web_utils.mongo_set_database_collection)
+
+    @users_api.route('/update_user_info',methods=['POST'])
+    def update_users_information():
+        '''
+            On a REST POST call -> Make an update to an existing entry in MongoDB
+            Given that User specifies required attributes and that the authorization information
+            is correct then make an update in the database.
+
+            Given an user_name attribute and update information , modify all records
+            in the database wherever such an user would exist.
+
+            @return:
+                Success -> {"data":"True"}
+                Exception -> {"data":"ERROR"}
+        '''
+        # Update an existing collection in the database
+        return web_utils.Tasks.update_users_information(request.args.to_dict(),request.authorization,
+            mongo_collection=web_utils.mongo_set_database_collection)
 
 '''
     Start the Flask Server and do all REST Operations
@@ -70,7 +86,7 @@ if __name__ == "__main__":
     # Pre-Requisite
     web_utils.Tasks.set_process_read_frequent()
     # Mongo Collection for all mongo tasks
-    #web_utils.mongo_set_database = web_utils.Tasks.set_database()
+    web_utils.mongo_set_database_collection = web_utils.Tasks.set_database()
     # Run the app in port 4000
     users_api.run(debug=True,port=4000)
 

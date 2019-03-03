@@ -20,16 +20,19 @@ class Py_Utils:
             return {'data':'ERROR'}
 
     @staticmethod
-    def validate_users_keys(user_inputs,required_inputs):
+    def validate_users_keys(user_inputs,required_inputs,user_names_array):
         '''
-            Check if the User supplies all the required inputs
+            Check if the User supplies all the required inputs.
+            If any of the user keys are not passed, return False.
+            If the username is already available in the database ,then do not process
             :param user_inputs: Inputs given by the User
             :param required_inputs: Expected inputs, mentioned as part of configs
+            :param user_names_array: Array of usernames available in the database
         '''
         try:
             user_inputs_keys = sorted(list(user_inputs.keys()))
             required_inputs_keys = sorted(required_inputs)
-            return user_inputs_keys == required_inputs_keys
+            return user_inputs_keys == required_inputs_keys and str(user_inputs['user_name']).lower() not in user_names_array
         except Exception as error:
             return False
 
