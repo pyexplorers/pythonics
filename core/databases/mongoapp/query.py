@@ -2,7 +2,7 @@
     Import modules to be used in the mongo related operations
 '''
 import pymongo
-import db_configs
+import core.databases.mongoapp.db_configs as db_configs
 
 '''
  A module to perform all mongodb related operations

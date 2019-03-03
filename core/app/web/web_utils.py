@@ -9,16 +9,21 @@ from core.databases.mongoapp.query import Mongo_Utils
 
 class Tasks:
 
-    '''
-        Raise a connection with MongoDB
-        Select database and collection
-        Return the collections object
-    '''
+    @staticmethod
+    def set_database():
+        '''
+            Raise a connection with MongoDB
+            Select database and collection
+            Return the collections object
+            Do Insert, Fetch, Update and Delete
+        '''
+        # Connect to the database
+        connect_database = Mongo_Utils.get_connection(server_name=web_configs.MONGO_SERVER_NAME, server_port=web_configs.MONGO_SERVER_PORT)
+        # Fetch the databse 
+        fetch_database = Mongo_Utils.set_mongo_database(connection_object=connect_database, database_name=web_configs.MONGO_SERVER_DATABASE_NAME)
+        # Return the Collection object
+        return fetch_database.users_metadata
 
-
-    '''
-        Do Insert, Fetch, Update and Delete
-    '''
     @staticmethod
     def set_process_read_frequent():
         '''
@@ -56,7 +61,7 @@ class Tasks:
 
     @staticmethod
     @authorize(credentials=web_configs.AUTHORIZATION_INFORMATION,invalid_credentials_error=web_configs.INVALID_CREDENTIALS_ERROR)
-    def post_users_information(mapper,authorize_info):
+    def post_users_information(mapper,authorize_info,mongo_collection=None):
         '''
             Given user management data from user, make an entry into database and return the confirmation
             ***
@@ -66,17 +71,25 @@ class Tasks:
                 be updated with user's requests.
                 Invoke the supplied database and collection and insert the records
             ***
-            :param mapper: User recommended keys & values
+            :param mapper: User recommended keys & values -> Dictionary format
             :param authorize_info: Auth Info required for processing REST Calls
+            :param mongo_collection: Collection on which the records are to be inserted
             @return:
                 Success -> Invoke database and add an entry
-                Exception -> Empty Array
+                            Return True if records are inserted else False
+                Exception -> return ERROR
         '''
         try:
-            # Filter keys that are actually part of the system
-            keys_api_users_attributes = [each_user_key for each_user_key in mapper if str(each_user_key[0]).lstrip().rstrip() in web_configs.API_USERS_ATTRIBUTES]
-            # Do a Search on the existing datastore to filter records that fit the user's requests
-            return [each_record for each_record in Tasks.DATASTORE_JSON_RECORDS for each_user_key in keys_api_users_attributes \
-                if str(each_record[each_user_key[0]]).lower().__contains__(str(each_user_key[1]).lower())]
+            '''
+                Check if the User has posted all the required keys.
+                Insert into MongoDB only if all the requiredkeys are found
+            '''
+            if bool(Py_Utils.validate_users_keys(mapper,web_configs.API_USERS_ATTRIBUTES)):
+                # Do insert the records into the database
+                Mongo_Utils.insert_records(collection_object=mongo_collection, records=mapper)
+                # Return True -> Able to insert records into the database
+                return {"data":True}
+            # Return False -> Unable to insert records into the database
+            return {"data":False}
         except Exception as error:
-            return ['ERROR']            
+            return {"data":"ERROR"}

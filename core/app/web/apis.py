@@ -43,6 +43,7 @@ class Users_Stats:
                 Success -> Valid records that match user's query
                 Exception -> {"data":"ERROR"}
         '''
+        pdb.set_trace()
         # Get all users whose attributes matches the argument specified by the User
         get_users_information = web_utils.Tasks.get_users_information(request.args.items(),request.authorization)
         return json.dumps({"data":get_users_information})
@@ -59,15 +60,17 @@ class Users_Stats:
         '''
         print("\n\n\n {} \n\n\n ".format(request.method))
         # Get all users whose attributes matches the argument specified by the User
-        get_users_information = web_utils.Tasks.post_users_information(request.args.items(),request.authorization)
-        return {}
-        
+        return web_utils.Tasks.post_users_information(request.args.to_dict(),request.authorization,
+            mongo_collection=None)
+
 '''
     Start the Flask Server and do all REST Operations
 '''        
 if __name__ == "__main__":
     # Pre-Requisite
     web_utils.Tasks.set_process_read_frequent()
+    # Mongo Collection for all mongo tasks
+    #web_utils.mongo_set_database = web_utils.Tasks.set_database()
     # Run the app in port 4000
     users_api.run(debug=True,port=4000)
 

@@ -27,7 +27,7 @@ INVALID_CREDENTIALS_ERROR = {'ERROR_INVALID_CREDENTIALS':"Authorization was not 
 '''
 # Define server name and port for connections
 MONGO_SERVER_NAME = 'alpha-core-lnx'
-MONGO_SERVER_POST = 7000
+MONGO_SERVER_PORT = 7000
 # Define database name and collection name for insert/update/delete operations
 MONGO_SERVER_DATABASE_NAME = 'users_management'
 MONGO_SERVER_DATABASE_COLLECTION_NAME = 'users_metadata'

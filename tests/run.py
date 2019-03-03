@@ -4,6 +4,7 @@
 import sys
 import tests_configs
 from core.utilities.pyutils import Py_Utils
+import pytest
 
 '''
 	A Class to run and execute the tests
@@ -43,6 +44,7 @@ class Tests:
 			# Assert if the data is not empty
 			assert each_api_url_call_result.json()['data'] != []
 
+	@pytest.mark.skip()
 	def tests_post_requests_api(self):
 		'''
 			Do a GET call and check if the API is returning valid result
@@ -57,6 +59,7 @@ class Tests:
 			I do a check if all params that i pass return non-empty results
 		'''
 		for each_api_url_call_result in result_api_calls:
+			print("\n\n Do Assertion for URL {} ".format(each_api_url_call_result.url))
 			print("\n\n Do Assertion for URL {} ".format(each_api_url_call_result.url))
 			# Assert if the request was made with valid username and password
 			assert each_api_url_call_result.json()['data'] != tests_configs.ERROR_INVALID_CREDS

@@ -20,6 +20,20 @@ class Py_Utils:
             return {'data':'ERROR'}
 
     @staticmethod
+    def validate_users_keys(user_inputs,required_inputs):
+        '''
+            Check if the User supplies all the required inputs
+            :param user_inputs: Inputs given by the User
+            :param required_inputs: Expected inputs, mentioned as part of configs
+        '''
+        try:
+            user_inputs_keys = sorted(list(user_inputs.keys()))
+            required_inputs_keys = sorted(required_inputs)
+            return user_inputs_keys == required_inputs_keys
+        except Exception as error:
+            return False
+
+    @staticmethod
     def post_api_result(api_url,*args):
         '''
             Given an API URL do a GET request call and return the result
