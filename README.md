@@ -92,3 +92,29 @@ Modules and Significance:
 				-> Validate all the information queried by the User.
 				-> Given a *.csv file, read it and populate the *.json file.
 
+
+	8.) 
+		File name: https://github.com/pyexplorers/pythonics/blob/master/tests/tests_configs.py
+		Requirement: 
+			1.) Handle all configuration information for testing API calls
+			2.) Following actions are performed in this module
+				-> Store GET REST URLs.
+				-> Store POST REST URLs.
+				-> Store PUT REST URLs.
+				-> Store DELETE REST URLs.
+				-> Store User's credentials.
+				-> Error messages for invalid credentials.
+				-> *.json and *.csv file full path.
+				-> Store all User's attributes.
+
+
+	9.) 
+		File name: https://github.com/pyexplorers/pythonics/blob/master/tests/run.py
+		Requirement: 
+			1.) Handle all testcases for testing API calls
+			2.) Following actions are performed in this module
+				-> Test data population from *.csv to *.json.
+				-> Test GET REST API Calls.
+				-> Test PUT REST API Calls.
+				-> Test POST REST API Calls.
+				-> Test DELETE REST API Calls.
