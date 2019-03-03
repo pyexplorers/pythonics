@@ -97,15 +97,26 @@ class Users_Stats:
         return web_utils.Tasks.delete_users_information(request.args.to_dict(),request.authorization,
             mongo_collection=web_utils.mongo_set_database_collection)
 
+
+'''
+    Run the pre-requisite step for processing
+'''
+def main():
+    '''
+        This function is to be run before the server is booted
+    '''
+    # Read the json file and load the records into memory
+    web_utils.Tasks.set_process_read_frequent()
+    # Mongo Collection for all mongo tasks
+    web_utils.mongo_set_database_collection = web_utils.Tasks.set_database()
+
 '''
     Start the Flask Server and do all REST Operations
 '''        
 if __name__ == "__main__":
-    # Pre-Requisite
-    web_utils.Tasks.set_process_read_frequent()
-    # Mongo Collection for all mongo tasks
-    web_utils.mongo_set_database_collection = web_utils.Tasks.set_database()
-    # Run the app in port 4000
+    # Invoke the pre-requisite step
+    main()
+    # Run the app in port 4000 and run in debug mode
     users_api.run(debug=True,port=4000)
 
     

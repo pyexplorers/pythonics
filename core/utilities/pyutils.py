@@ -14,7 +14,6 @@ class Py_Utils:
             :param args: Contains username and password
         '''
         try:
-            print("Do a GET call for URL .. {} ".format(api_url))
             return requests.get(api_url,auth=(args[0],args[1]))
         except Exception as error:
             return {'data':'ERROR'}
@@ -52,7 +51,6 @@ class Py_Utils:
             :param args: Contains username and password
         '''
         try:
-            print("Do a POST call for URL .. {} ".format(api_url))
             return requests.post(api_url,auth=(args[0],args[1]))
         except Exception as error:
             return {'data':'ERROR'}
@@ -68,7 +66,6 @@ class Py_Utils:
                 Exception -> Empty dictionary
         '''
         try:
-            print("Read Json ... {} ".format(json_file))
             with open(json_file,'r') as reader:
                 return json.load(reader)
         except Exception as error:
