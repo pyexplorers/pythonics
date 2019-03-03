@@ -7,7 +7,10 @@ Please check Server name and Port and ensure that Mongo server is active. '''
 
 # Raise an exception if database name is not available
 MONGO_DB_DATABASE_ERROR = '''Unable to invoke a connection with Mongo database - {}
-Please check configurations.'''
-
+Please check configurations.  Error -> {} '''
 # Raise an exception if data cannot be inserted into a given collection
-MONGO_DB_DATABASE_COLLECTIONS_INSERT_ERROR = '''Unable to insert records into a given database and collection.'''
+MONGO_DB_DATABASE_COLLECTIONS_DOCUMENTS_INSERT_ERROR = '''Unable to insert the documents into a given database and collection. Error -> {} '''
+# Raise an exception if the documents inside a collection cannot be updated
+MONGO_DB_DATABASE_COLLECTIONS_DOCUMENTS_UPDATE_ERROR = '''Unable to update the documents inside the given collection and database. Error -> {} '''
+# Raise an exception if the documents inside a collection cannot be deleted
+MONGO_DB_DATABASE_COLLECTIONS_DOCUMENTS_DELETE_ERROR = '''Unable to delete the documents inside the given collection and database. Error -> {} '''

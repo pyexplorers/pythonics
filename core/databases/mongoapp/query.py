@@ -45,14 +45,14 @@ class Mongo_Utils:
         try:          
            return connect_object[database_name]
         except Exception as error:
-          raise Exception(db_configs.MONGO_DB_DATABASE_ERROR.format(database_name))
+          raise Exception(db_configs.MONGO_DB_DATABASE_ERROR.format(database_name,error))
     
     @staticmethod
     def insert_records(collection_object, records):
         '''
             Given an existing database in the System, insert records
             to the User specified collections.
-            :param collection_object: Collection name into which the records are to be inserted
+            :param collection_object: Collection inside a database on which documents will be inserted
             :param records: The Records that are meant to be inserted inside a collection within a database
             @return:
                 Success -> Insert Record into Mongo DB Collections
@@ -61,31 +61,49 @@ class Mongo_Utils:
         try:          
            return collection_object.insert_one(records) if not records.__class__ == list else collection_object.insert_many(records)
         except Exception as error:
-          raise Exception(db_configs.MONGO_DB_DATABASE_COLLECTIONS_INSERT_ERROR) 
+          raise Exception(db_configs.MONGO_DB_DATABASE_COLLECTIONS_DOCUMENTS_INSERT_ERROR.format(error)) 
         
     @staticmethod
     def update_records(collection_object, records):
         '''
             Given an existing database and collection in the System, update all documents in the collection.
-            :param collection_object: Collection name into which the records are to be updated
+            :param collection_object: Collection inside a database on which documents will be updated
             :param records: The Records that are meant to be inserted inside a collection within a database
             @return:
-                Success -> Update all documents in the mongodb collection.
+                Success -> Update all documents in the mongodb collection that match the criteria.
                 Exception -> Inform the User that the records couldn't be updated.
         '''
         try:          
-
            # Get the field -> user_name
            records_user_name = records['user_name']
            # Update all documents in the collection where the user_name == records_user_name
            return collection_object.update(
                 {"user_name":records_user_name},
-                {
-                    "$set":records
-                }
+                    {
+                        "$set":records
+                    }
                 )
         except Exception as error:
-          raise Exception(db_configs.MONGO_DB_DATABASE_COLLECTIONS_INSERT_ERROR) 
+          raise Exception(db_configs.MONGO_DB_DATABASE_COLLECTIONS_DOCUMENTS_UPDATE_ERROR.format(error)) 
+
+    @staticmethod
+    def delete_records(collection_object, records):
+        '''
+            Given an existing database and collection in the System, delete all documents in the collection.
+            :param collection_object: Collection inside a database on which documents will be deleted.
+            :param records: Find records['user_name'] and delete all documents inside a collection.
+                where such user_name exists.
+            @return:
+                Success -> Update all documents in the mongodb collection.
+                Exception -> Inform the User that the records couldn't be updated.
+        '''
+        try:          
+           # Get the field -> user_name
+           records_user_name = records['user_name']
+           # Delete all documents in the collection where the user_name == records_user_name
+           return collection_object.delete_many({"user_name":records_user_name})
+        except Exception as error:
+          raise Exception(db_configs.MONGO_DB_DATABASE_COLLECTIONS_DOCUMENTS_UPDATE_ERROR.format(error)) 
 
     @staticmethod
     def return_records(collection_object):

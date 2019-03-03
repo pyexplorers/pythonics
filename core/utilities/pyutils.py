@@ -20,19 +20,27 @@ class Py_Utils:
             return {'data':'ERROR'}
 
     @staticmethod
-    def validate_users_keys(user_inputs,required_inputs,user_names_array):
+    def validate_users_keys(user_inputs,required_inputs,user_names_array,check_user_exists=False):
         '''
             Check if the User supplies all the required inputs.
             If any of the user keys are not passed, return False.
-            If the username is already available in the database ,then do not process
+            If the username is already available in the database ,then do not process.
             :param user_inputs: Inputs given by the User
             :param required_inputs: Expected inputs, mentioned as part of configs
             :param user_names_array: Array of usernames available in the database
+            :param check_user_exists:
+                Default Value: True
+                When set as True 
+                    -> Apply a check to verify the users attributes against required config attributes and 
+                       Apply a check to verify if user is already part of the system.
+                else
+                    -> Apply a check to verify the users attributes against required config attributes
         '''
         try:
             user_inputs_keys = sorted(list(user_inputs.keys()))
             required_inputs_keys = sorted(required_inputs)
-            return user_inputs_keys == required_inputs_keys and str(user_inputs['user_name']).lower() not in user_names_array
+            return user_inputs_keys == required_inputs_keys and str(user_inputs['user_name']).lower() not in user_names_array if bool(check_user_exists)\
+                else user_inputs_keys == required_inputs_keys
         except Exception as error:
             return False
 

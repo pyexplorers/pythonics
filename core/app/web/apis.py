@@ -79,6 +79,24 @@ class Users_Stats:
         return web_utils.Tasks.update_users_information(request.args.to_dict(),request.authorization,
             mongo_collection=web_utils.mongo_set_database_collection)
 
+    @users_api.route('/delete_user_info',methods=['POST'])
+    def delete_users_information():
+        '''
+            On a REST POST call -> Make an update to an existing entry in MongoDB
+            Given that User specifies required attributes and that the authorization information
+            is correct then make an update in the database.
+
+            Given an user_name attribute and update information , modify all records
+            in the database wherever such an user would exist.
+
+            @return:
+                Success -> {"data":"True"}
+                Exception -> {"data":"ERROR"}
+        '''
+        # Update an existing collection in the database
+        return web_utils.Tasks.delete_users_information(request.args.to_dict(),request.authorization,
+            mongo_collection=web_utils.mongo_set_database_collection)
+
 '''
     Start the Flask Server and do all REST Operations
 '''        

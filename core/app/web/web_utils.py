@@ -89,7 +89,8 @@ class Tasks:
                 Check if the User has posted all the required keys.
                 Insert into MongoDB only if all the requiredkeys are found.
             '''
-            if bool(Py_Utils.validate_users_keys(mapper,web_configs.API_USERS_ATTRIBUTES,Tasks.DATASTORE_JSON_RECORDS_USER_NAME_ARRAY)):
+            if bool(Py_Utils.validate_users_keys(mapper,web_configs.API_USERS_ATTRIBUTES,
+                    Tasks.DATASTORE_JSON_RECORDS_USER_NAME_ARRAY,check_user_exists=True)):
                 '''
                     Do insert the records into the database -> This function will insert a new record(document) to the collection.
                     Mongo_Utils.insert_records -> This function will handle both single and bulk inserts.   
@@ -127,14 +128,54 @@ class Tasks:
         try:
             '''
                 Check if the User has posted all the required keys.
-                Make an update in MongoDB only if all the requiredkeys are found.
+                Make an update in MongoDB only if all the required keys are found.
             '''
             if bool(Py_Utils.validate_users_keys(mapper,web_configs.API_USERS_ATTRIBUTES,Tasks.DATASTORE_JSON_RECORDS_USER_NAME_ARRAY)):
                 '''
                     Do insert the records into the database -> This function will insert a new record(document) to the collection.
                     Mongo_Utils.insert_records -> This function will handle both single and bulk inserts.   
                 '''
-                Mongo_Utils.insert_records(collection_object=mongo_collection, records=mapper)
+                Mongo_Utils.update_records(collection_object=mongo_collection, records=mapper)
+                # Return True -> Able to insert records into the database
+                return {"data":True}
+            # Return False -> Unable to insert records into the database
+            return {"data":False}
+        except Exception as error:
+            # Return error on exception
+            return {"data":"ERROR"}
+
+    @staticmethod
+    @authorize(credentials=web_configs.AUTHORIZATION_INFORMATION,invalid_credentials_error=web_configs.INVALID_CREDENTIALS_ERROR)
+    def delete_users_information(mapper,authorize_info,mongo_collection=None):
+        '''
+            Given user management data from user, delete all entry in the database and return the confirmation.
+            *** The function will be executed only if the User issues the REST calls with proper credentials. ***
+            ***
+                For all DELETE Operations ,check the keys and values sent by the User and make a deletion in the database.
+                Invalid keys will be filtered and only valid keys will be processed.
+                All keys required as a mandate shall be supplied by the User else user management DB will not
+                be updated with user's requests.
+                Invoke the supplied database and collection and delete the documents.
+            ***
+            :param mapper: User recommended keys & values -> Dictionary format.
+            :param authorize_info: Auth Info required for processing REST Calls.
+            :param mongo_collection: Collection on which the documents are to be deleted.
+            @return:
+                Success -> Invoke database and delete all the documents in the collection.
+                            Return True if records are deleted else False.
+                Exception -> return ERROR
+        '''
+        try:
+            '''
+                Check if the User has posted all the required keys.
+                Make an deletion in MongoDB only if all the required keys are found.
+            '''
+            if bool(Py_Utils.validate_users_keys(mapper,web_configs.API_USERS_ATTRIBUTES,Tasks.DATASTORE_JSON_RECORDS_USER_NAME_ARRAY)):
+                '''
+                    Do insert the records into the database -> This function will insert a new record(document) to the collection.
+                    Mongo_Utils.insert_records -> This function will handle both single and bulk inserts.   
+                '''
+                Mongo_Utils.delete_records(collection_object=mongo_collection, records=mapper)
                 # Return True -> Able to insert records into the database
                 return {"data":True}
             # Return False -> Unable to insert records into the database
