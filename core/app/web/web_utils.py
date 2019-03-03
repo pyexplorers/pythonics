@@ -110,7 +110,7 @@ class Tasks:
             Given user management data from user, update all entry in the database and return the confirmation.
             *** The function will be executed only if the User issues the REST calls with proper credentials. ***
             ***
-                For all POST Operations ,check the keys and values sent by the User and make an entry into the database.
+                For all PUT Operations ,check the keys and values sent by the User and make an update in the database.
                 Invalid keys will be filtered and only valid keys will be processed.
                 All keys required as a mandate shall be supplied by the User else user management DB will not
                 be updated with user's requests.
@@ -120,14 +120,14 @@ class Tasks:
             :param authorize_info: Auth Info required for processing REST Calls
             :param mongo_collection: Collection on which the records are to be inserted
             @return:
-                Success -> Invoke database and add an entry
+                Success -> Invoke database and update all the documents in the collection.
                             Return True if records are inserted else False
                 Exception -> return ERROR
         '''
         try:
             '''
                 Check if the User has posted all the required keys.
-                Insert into MongoDB only if all the requiredkeys are found.
+                Make an update in MongoDB only if all the requiredkeys are found.
             '''
             if bool(Py_Utils.validate_users_keys(mapper,web_configs.API_USERS_ATTRIBUTES,Tasks.DATASTORE_JSON_RECORDS_USER_NAME_ARRAY)):
                 '''

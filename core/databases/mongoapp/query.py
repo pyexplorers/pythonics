@@ -64,6 +64,30 @@ class Mongo_Utils:
           raise Exception(db_configs.MONGO_DB_DATABASE_COLLECTIONS_INSERT_ERROR) 
         
     @staticmethod
+    def update_records(collection_object, records):
+        '''
+            Given an existing database and collection in the System, update all documents in the collection.
+            :param collection_object: Collection name into which the records are to be updated
+            :param records: The Records that are meant to be inserted inside a collection within a database
+            @return:
+                Success -> Update all documents in the mongodb collection.
+                Exception -> Inform the User that the records couldn't be updated.
+        '''
+        try:          
+
+           # Get the field -> user_name
+           records_user_name = records['user_name']
+           # Update all documents in the collection where the user_name == records_user_name
+           return collection_object.update(
+                {"user_name":records_user_name},
+                {
+                    "$set":records
+                }
+                )
+        except Exception as error:
+          raise Exception(db_configs.MONGO_DB_DATABASE_COLLECTIONS_INSERT_ERROR) 
+
+    @staticmethod
     def return_records(collection_object):
         '''
             Given an existing database and a collection in the System, return records
