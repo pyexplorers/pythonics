@@ -5,7 +5,7 @@ import json
 import requests
 
 class Py_Utils:
-
+    
     @staticmethod
     def get_api_result(api_url,*args):
         '''
