@@ -3,16 +3,18 @@
 '''
 import pymongo
 import core.databases.mongoapp.db_configs as db_configs
+from core.databases.mongoapp.bases_db import Mongo_Database_base
+from core.exceptions.def_exceptions import MongoDB_Exceptions_Connection,MongoDB_Exceptions_Records
 
 '''
- A module to perform all mongodb related operations
+ A module to perform all mongodb related operations.
     1.) Insert 
     2.) Update
     3.) Delete
     4.) DB Connections and Related Objects
 '''
 
-class Mongo_Utils:
+class Mongo_Utils(Mongo_Database_base):
     '''
         Interact with mongo objects and return user required information
     '''
@@ -29,7 +31,7 @@ class Mongo_Utils:
         try:
           return pymongo.Mongo_Client(server_name, server_port)
         except Exception as error:
-          raise Exception(db_configs.MONGO_DB_CONNECTION_ERROR)
+          raise MongoDB_Exceptions_Connection(db_configs.MONGO_DB_CONNECTION_ERROR)
     
     @staticmethod
     def set_mongo_database(connection_object, database_name):
@@ -45,7 +47,7 @@ class Mongo_Utils:
         try:          
            return connect_object[database_name]
         except Exception as error:
-          raise Exception(db_configs.MONGO_DB_DATABASE_ERROR.format(database_name,error))
+          raise MongoDB_Exceptions_DataBase(db_configs.MONGO_DB_DATABASE_ERROR.format(database_name,error))
     
     @staticmethod
     def insert_records(collection_object, records):
@@ -61,7 +63,7 @@ class Mongo_Utils:
         try:          
            return collection_object.insert_one(records) if not records.__class__ == list else collection_object.insert_many(records)
         except Exception as error:
-          raise Exception(db_configs.MONGO_DB_DATABASE_COLLECTIONS_DOCUMENTS_INSERT_ERROR.format(error)) 
+          raise MongoDB_Exceptions_Records(db_configs.MONGO_DB_DATABASE_COLLECTIONS_DOCUMENTS_INSERT_ERROR.format(error)) 
         
     @staticmethod
     def update_records(collection_object, records):
@@ -84,7 +86,7 @@ class Mongo_Utils:
                     }
                 )
         except Exception as error:
-          raise Exception(db_configs.MONGO_DB_DATABASE_COLLECTIONS_DOCUMENTS_UPDATE_ERROR.format(error)) 
+          raise MongoDB_Exceptions_Records(db_configs.MONGO_DB_DATABASE_COLLECTIONS_DOCUMENTS_UPDATE_ERROR.format(error)) 
 
     @staticmethod
     def delete_records(collection_object, records):
@@ -103,7 +105,7 @@ class Mongo_Utils:
            # Delete all documents in the collection where the user_name == records_user_name
            return collection_object.delete_many({"user_name":records_user_name})
         except Exception as error:
-          raise Exception(db_configs.MONGO_DB_DATABASE_COLLECTIONS_DOCUMENTS_UPDATE_ERROR.format(error)) 
+          raise MongoDB_Exceptions_Records(db_configs.MONGO_DB_DATABASE_COLLECTIONS_DOCUMENTS_UPDATE_ERROR.format(error)) 
 
     @staticmethod
     def return_records(collection_object):
